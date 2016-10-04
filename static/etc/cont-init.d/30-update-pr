@@ -5,13 +5,14 @@ if [[ -d /app/plex-requests/.git ]]; then
   cd /app/plex-requests && git pull
 else
   echo "First run, installing."
-  exec s6-setuidgid bytesized curl https://install.meteor.com/ | sh
-  chown -R bytesized:bytesized /root
   mkdir /app
+  export HOME=/app
+  exec s6-setuidgid bytesized curl https://install.meteor.com/ | sh
   cd /app && git clone https://github.com/lokenx/plexrequests-meteor.git plex-requests
   cd /app/plex-requests/
-  echo "Updating meteor, sit back and relax"
-  exec s6-setuidgid bytesized meteor update
+#  chown -R bytesized:bytesized /app
+#  echo "Updating meteor, sit back and relax"
+#  exec s6-setuidgid bytesized meteor update
 fi
 
-chown -R bytesized:bytesized /root /app
+chown -R bytesized:bytesized /config /app

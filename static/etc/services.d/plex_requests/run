@@ -1,9 +1,7 @@
 #!/usr/bin/with-contenv bash
-
 umask 0002
 
-chown -R bytesized:bytesized /app /config
-
+export HOME=/app
 cd /app/plex-requests
 
 echo "Starting Plex Requests.. This can take a while.. Make some coffee."
