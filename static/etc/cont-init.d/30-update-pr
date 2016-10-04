@@ -1,0 +1,17 @@
+#!/usr/bin/with-contenv bash
+
+if [[ -d /app/plex-requests/.git ]]; then
+  echo "Updating Plex Requests"
+  cd /app/plex-requests && git pull
+else
+  echo "First run, installing."
+  exec s6-setuidgid bytesized curl https://install.meteor.com/ | sh
+  chown -R bytesized:bytesized /root
+  mkdir /app
+  cd /app && git clone https://github.com/lokenx/plexrequests-meteor.git plex-requests
+  cd /app/plex-requests/
+  echo "Updating meteor, sit back and relax"
+  exec s6-setuidgid bytesized meteor update
+fi
+
+chown -R bytesized:bytesized /root /app
